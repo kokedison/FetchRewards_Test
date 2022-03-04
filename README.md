@@ -21,7 +21,7 @@ Download and install [Python 3.4+](https://www.python.org/downloads/).
 ---
 ```
 # Clone Repository
-$ git clone https://github.com/kokedison/flask-sqlalchemy
+$ git clone https://github.com/kokedison/FetchRewards_Test.git
 
 # Install Required Packages
 $ pip install -r FetchRewards_Test/requirements.txt
