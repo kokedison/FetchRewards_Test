@@ -1,0 +1,225 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "The API for Fetch Rewards Coding Exercise",
+    "version": "1.0.0",
+    "title": "Fetch Rewards Coding Exercise"
+  },
+  "schemes": [
+    "http"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "securityDefinitions": {
+    "Bearer": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header"
+    }
+  },
+  "paths": {
+    "/transactions": {
+      "post": {
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "tags": [
+          "Transaction"
+        ],
+        "operationId": "Save new data",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "data",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/TransactionInfo"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully add new transaction",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "New transaction added."
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/FieldErrorInfo"
+            }
+          },
+          "401": {
+            "description": "Not authorized.",
+            "schema": {
+              "type": "string",
+              "example": "Access Denied."
+            }
+          }
+        }
+      }
+    },
+    "/spend": {
+      "post": {
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "tags": [
+          "Points"
+        ],
+        "operationId": "Spend Points",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "data",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SpendPointInfo"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully spend points",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "payer": {
+                    "type": "string",
+                    "example": "Dennon"
+                  },
+                  "points": {
+                    "type": "integer",
+                    "example": -100
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/FieldErrorInfo"
+            }
+          },
+          "401": {
+            "description": "Not authorized.",
+            "schema": {
+              "type": "string",
+              "example": "Access Denied."
+            }
+          }
+        }
+      }
+    },
+    "/balance": {
+      "get": {
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "tags": [
+          "Get balance"
+        ],
+        "operationId": "Get user balance",
+        "responses": {
+          "200": {
+            "description": "Successfully get balance",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "<Payer Name 1>": {
+                  "type": "integer",
+                  "example": 1000
+                },
+                "<Payer Name 2>": {
+                  "type": "integer",
+                  "example": 500
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized.",
+            "schema": {
+              "type": "string",
+              "example": "Access Denied."
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "TransactionInfo": {
+      "type": "object",
+      "properties": {
+        "payer": {
+          "type": "string",
+          "example": "Denno"
+        },
+        "points": {
+          "type": "integer",
+          "example": 1000
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "example": "2020-10-31T11:00:00Z"
+        }
+      }
+    },
+    "SpendPointInfo": {
+      "type": "object",
+      "properties": {
+        "points": {
+          "type": "integer",
+          "example": 5000
+        }
+      }
+    },
+    "FieldErrorInfo": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string",
+          "example": "error"
+        },
+        "messages": {
+          "type": "object",
+          "properties": {
+            "points": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "example": "Missing data for required field."
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

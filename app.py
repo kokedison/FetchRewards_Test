@@ -1,4 +1,4 @@
-from flask import jsonify, request
+from flask import jsonify, request, render_template
 import datetime
 from functools import wraps
 from marshmallow import ValidationError
@@ -57,8 +57,8 @@ def requiredParams(schema):
     return decorator
 
 @app.route('/transactions', methods=['POST'])
-@requiredParams(TransactionSchema())
 @auth.login_required
+@requiredParams(TransactionSchema())
 def addTransaction():
     '''
     Add one new transaction
@@ -76,8 +76,8 @@ def addTransaction():
     return jsonify({'status': 'success', 'message': 'New transaction added.'})
 
 @app.route('/transactions/multiple', methods=['POST'])
-@requiredParams(TransactionSchema(many=True))
 @auth.login_required
+@requiredParams(TransactionSchema(many=True))
 def addMultipleTransactions():
     '''
     Add multiple transactions into database
@@ -97,8 +97,8 @@ def addMultipleTransactions():
     return jsonify([t.to_dict() for t in Transaction.query.filter_by(userID=auth.current_user().id).all()])
 
 @app.route('/spend', methods=['POST'])
-@requiredParams(SpendPointsSchema())
 @auth.login_required
+@requiredParams(SpendPointsSchema())
 def spendPoints():
     '''
     Spend user's points
@@ -155,6 +155,11 @@ def getBalance():
 
     return jsonify(payersRecord)
 
+
+@app.route('/api/docs')
+def get_docs():
+    print('sending docs')
+    return render_template('swaggerui.html')
 
 if __name__ == '__main__':
     app.run()
