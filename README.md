@@ -14,7 +14,7 @@ When a user spends points, they don't know or care which payer the points come f
 
 ## Prerequisite
 ---
-Download and install [Python 3.4+](https://www.python.org/downloads/).
+Download and install [Python 3.4+ & pip](https://cloud.google.com/python/docs/setup) and [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) depends on the OS you're running in.
 
 
 ## Install
@@ -31,8 +31,8 @@ $ pip install -r FetchRewards_Test/requirements.txt
 ## Run
 ---
 ```
-# Create & Initilize SQLite Database with 2 Dummy Users and print out authentication tokens
-$ python -m FetchRewards_Test.initializeddb
+# Create & Initilize SQLite Database with 2 Dummy Users and print out authentication tokens to be used later testing
+$ python -m FetchRewards_Test.initializeDB
 
 # Run Server
 $ python -m FetchRewards_Test.app
@@ -46,6 +46,8 @@ Please find API endpoints documentation at http://127.0.0.1:5000/api/docs
 
 ## Test
 ---
+Replace <auth_token> with tokens printed when initializing database.
+
 ### #Add Transaction
 ```
 $ curl -d '{ "payer": "DANNON", "points": 1000, "timestamp": "2020-11-02T14:00:00Z" }' -H 'Content-Type: application/json' -H "Authorization: Bearer <auth_token>" http://127.0.0.1:5000/transactions
